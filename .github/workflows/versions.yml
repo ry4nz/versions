@@ -13,12 +13,16 @@ jobs:
           owner: etcd-io
           repo: etcd
           excludes: prerelease, draft
+      - id: etcd-version-2
+        run: |
+          version=$(curl -L  https://api.github.com/repos/etcd-io/etcd/releases/latest | jq '.name')
+          echo "VERSION=$version" 
       - id: get-etcd-version
         run: |
           version=$(grep ETCD_COMMIT base-tag.mk | cut -d'=' -f2)
           echo "VERSION=$version" 
       - id: print-out
         run: |
-          echo ${{ steps.etcd-version.outputs.release }}
+          echo ${{ steps.etcd-version-2.outputs.release }}
           echo ${{ steps.get-etcd-version.version }}
     
