@@ -10,11 +10,11 @@ jobs:
       - id: etcd-version-2
         run: |
           version=$(curl -L  https://api.github.com/repos/etcd-io/etcd/releases/latest | jq '.name' | tr -d '"')
-          echo "VERSION=$version" 
+          echo "::set-output name=version::$version"" 
       - id: get-etcd-version
         run: |
           version=$(grep ETCD_COMMIT base-tag.mk | cut -d'=' -f2)
-          echo "VERSION=$version" 
+          echo "::set-output name=version::$version"" 
       - id: print-out
         run: |
           echo ${{ steps.etcd-version-2.output.version }}
