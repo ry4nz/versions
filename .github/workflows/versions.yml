@@ -7,11 +7,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - id: etcd
+      - name: etcd
         run: |
           version1=$(curl -L  https://api.github.com/repos/etcd-io/etcd/releases/latest | jq '.name' | tr -d '"')
           version2=$(grep ETCD_COMMIT base-tag.mk | cut -d'=' -f2)
           echo etcd $version1 $version2 >> versions.txt
+      - name: node feature discovery
+        run: |
+          version1=$(curl -L  https://api.github.com/repos/kubernetes-sigs/node-feature-discovery/releases/latest | jq '.name' | tr -d '"')
+          version2=$(grep NODE_FEATURE_DISCOVERY_COMMIT base-tag.mk | cut -d'=' -f2)
+          echo etcd $version1 $version2 >> versions.txt
+
          
       - uses: actions/upload-artifact@v4
         with:
