@@ -6,13 +6,18 @@ jobs:
     name: GetVersions
     runs-on: ubuntu-latest
     steps:
-      - id: docker-version
+      - uses: actions/checkout@v3
+      - id: etcd-version
         uses: pozetroninc/github-action-get-latest-release@master
         with:
-          owner: docker
-          repo: docker
+          owner: etcd-io
+          repo: etcd
           excludes: prerelease, draft
+      - id: get-etcd-version
+        run: |
+          version=$(grep ETCD_COMMIT base-tag.mk | cut -d'=' -f2)
       - id: print-out
         run: |
-          echo ${{ steps.docker-version.outputs.release }}
+          echo ${{ steps.etcd-version.outputs.release }}
+          echo ${{ steps.get-etcd-version.version }}
     
