@@ -16,6 +16,7 @@ jobs:
       - id: get-etcd-version
         run: |
           version=$(grep ETCD_COMMIT base-tag.mk | cut -d'=' -f2)
+          echo "VERSION=$version" 
       - id: print-out
         run: |
           echo ${{ steps.etcd-version.outputs.release }}
