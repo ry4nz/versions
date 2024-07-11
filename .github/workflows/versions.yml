@@ -6,6 +6,7 @@ jobs:
     name: GetVersions
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - id: etcd-version-2
         run: |
           version=$(curl -L  https://api.github.com/repos/etcd-io/etcd/releases/latest | jq '.name' | tr -d '"')
@@ -16,6 +17,6 @@ jobs:
           echo "VERSION=$version" 
       - id: print-out
         run: |
-          echo ${{ steps.etcd-version-2.version }}
-          echo ${{ steps.get-etcd-version.version }}
+          echo ${{ steps.etcd-version-2.output.version }}
+          echo ${{ steps.get-etcd-version.output.version }}
     
