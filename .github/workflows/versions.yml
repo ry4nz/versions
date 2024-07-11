@@ -11,5 +11,10 @@ jobs:
         run: |
           version1=$(curl -L  https://api.github.com/repos/etcd-io/etcd/releases/latest | jq '.name' | tr -d '"')
           version2=$(grep ETCD_COMMIT base-tag.mk | cut -d'=' -f2)
-          echo etcd $version1 $version2
+          echo etcd $version1 $version2 >> versions.txt
+         
+      - uses: actions/upload-artifact@v4
+        with:
+          name: versions
+          path: versions.txt
     
