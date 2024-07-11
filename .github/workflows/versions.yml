@@ -1,0 +1,15 @@
+name: get versions
+on: [push, repository_dispatch]
+
+jobs:
+  build:
+    name: GetVersions
+    runs-on: ubuntu-latest
+    steps:
+      - id: docker-version
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          owner: docker
+          repo: docker
+          excludes: prerelease, draft
+    
