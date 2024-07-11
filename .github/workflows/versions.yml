@@ -6,16 +6,9 @@ jobs:
     name: GetVersions
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - id: etcd-version
-        uses: pozetroninc/github-action-get-latest-release@master
-        with:
-          owner: etcd-io
-          repo: etcd
-          excludes: prerelease, draft
       - id: etcd-version-2
         run: |
-          version=$(curl -L  https://api.github.com/repos/etcd-io/etcd/releases/latest | jq '.name')
+          version=$(curl -L  https://api.github.com/repos/etcd-io/etcd/releases/latest | jq '.name' | tr -d '"')
           echo "VERSION=$version" 
       - id: get-etcd-version
         run: |
@@ -23,6 +16,6 @@ jobs:
           echo "VERSION=$version" 
       - id: print-out
         run: |
-          echo ${{ steps.etcd-version-2.outputs.release }}
+          echo ${{ steps.etcd-version-2.version }}
           echo ${{ steps.get-etcd-version.version }}
     
