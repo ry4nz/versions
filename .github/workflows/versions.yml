@@ -7,20 +7,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: etcd
-        run: |
-          version1=$(curl -L  https://api.github.com/repos/etcd-io/etcd/releases/latest | jq '.name' | tr -d '"')
-          version2=$(grep ETCD_COMMIT base-tag.mk | cut -d'=' -f2)
-          echo etcd $version1 $version2 >> versions.txt
-      - name: node feature discovery
-        run: |
-          version1=$(curl -L  https://api.github.com/repos/kubernetes-sigs/node-feature-discovery/releases/latest | jq '.name' | tr -d '"')
-          version2=$(grep NODE_FEATURE_DISCOVERY_COMMIT base-tag.mk | cut -d'=' -f2)
-          echo etcd $version1 $version2 >> versions.txt
-
-         
+      - run: |
+          echo | name / repo | current version | upstream version  | > versions.md
+          echo | ------- |:------:| -----:| >> version.md
+      - run: |
+          name=ETCD_COMMIT
+          repo=etcd-io/etcd
+          version1=$(curl -L  https://api.github.com/$repo/releases/latest | jq '.name' | tr -d '"')
+          version2=$(grep $name base-tag.mk | cut -d'=' -f2)
+          echo |$name https://api.github.com/$repo | $version2 |$version1 | >> versions.md
+      - run: |
+          name=NODE_FEATURE_DISCOVERY_COMMIT
+          repo=kubernetes-sigs/node-feature-discovery
+          version1=$(curl -L  https://api.github.com/$repo/releases/latest | jq '.name' | tr -d '"')
+          version2=$(grep $name base-tag.mk | cut -d'=' -f2)
+          echo |$name https://api.github.com/$repo | $version2 |$version1 | >> versions.md
+                 
       - uses: actions/upload-artifact@v4
         with:
           name: versions
-          path: versions.txt
+          path: versions.md
     
