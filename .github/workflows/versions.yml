@@ -7,16 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - id: etcd-version-2
+      - id: etcd
         run: |
-          version=$(curl -L  https://api.github.com/repos/etcd-io/etcd/releases/latest | jq '.name' | tr -d '"')
-          echo "::set-output name=version::$version"" 
-      - id: get-etcd-version
-        run: |
-          version=$(grep ETCD_COMMIT base-tag.mk | cut -d'=' -f2)
-          echo "::set-output name=version::$version"" 
-      - id: print-out
-        run: |
-          echo ${{ steps.etcd-version-2.output.version }}
-          echo ${{ steps.get-etcd-version.output.version }}
+          version1=$(curl -L  https://api.github.com/repos/etcd-io/etcd/releases/latest | jq '.name' | tr -d '"')
+          version2=$(grep ETCD_COMMIT base-tag.mk | cut -d'=' -f2)
+          echo $version1 $version2
     
