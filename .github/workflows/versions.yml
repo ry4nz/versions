@@ -12,4 +12,7 @@ jobs:
           owner: docker
           repo: docker
           excludes: prerelease, draft
+      - id: print-out
+        run: |
+          echo ${{ steps.docker-version.outputs.release }}
     
