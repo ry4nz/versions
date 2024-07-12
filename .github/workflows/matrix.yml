@@ -8,17 +8,16 @@ jobs:
     strategy:
       matrix:
         component:
-          - { cc: gcc,   cxx: g++ }
-          - { cc: clang, cxx: clang++ }
+          - { n: ETCD_COMMIT,   r: etcd-io/etcd }
+          - { n: NODE_FEATURE_DISCOVERY_COMMIT, r: kubernetes-sigs/node-feature-discovery }
     steps:
       - uses: actions/checkout@v3
       - run: |
-          name=${{ matrix.component.cc }}
-          repo=${{ matrix.component.cxx }}
-          #version1=$(curl -L https://api.github.com/repos/$repo/releases/latest | jq '.name' | tr -d '"')
-          #version2=$(grep "$name" base-tag.mk | cut -d'=' -f2)
+          name=${{ matrix.component.n }}
+          repo=${{ matrix.component.r }}
+          version1=$(curl -L https://api.github.com/repos/$repo/releases/latest | jq '.name' | tr -d '"')
+          version2=$(grep "$name" base-tag.mk | cut -d'=' -f2)
           echo "Name: $name"
           echo "Repository: $repo"
-          #echo $version1
-          #echo $version2
-
+          echo $version1
+          echo $version2
