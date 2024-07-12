@@ -18,9 +18,12 @@ jobs:
           repo=${{ matrix.component.r }}
           version1=$(curl -L https://api.github.com/repos/$repo/releases/latest | jq '.name' | tr -d '"')
           version2=$(grep "$name" base-tag.mk | cut -d'=' -f2)
-          echo "| $name | https://www.github.com/$repo | $version2 | $version1 |" >> versions.md
+          echo "| $name | https://www.github.com/$repo | $version2 | $version1 |" >> "$GITHUB_OUTPUT"
   upload:
-     uses: actions/upload-artifact@v4
-       with:
-         name: versions
-         path: versions.md
+    name: Upload
+    needs: get-matrix
+    runs-on: ubuntu-latest
+    steps: 
+      - run: |
+          versions = "${{ needs.get-matrix.outputs }}"
+          echo $versions
