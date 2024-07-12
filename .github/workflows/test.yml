@@ -12,7 +12,7 @@ jobs:
     steps:
       - run: |
           d = ${{ matrix.dd }}
-          echo $d >> data.txt
+          echo hello >> data.txt
   
   # Job 2 to process data
   process-results:
