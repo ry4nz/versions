@@ -28,4 +28,12 @@ jobs:
           pattern: processed-data-*
           merge-multiple: true
       - run: |
-          ls -R
+          cat ./*.txt > all.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: all
+          path: all.txt
+      - uses: geekyeggo/delete-artifact@v5
+        with:
+          name: processed-data-*
+      
