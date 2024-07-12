@@ -1,5 +1,4 @@
 name: Example Workflow
-
 on: workflow_dispatch
 
 jobs:
@@ -9,11 +8,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        d: [1, 2, 3]  # Example data to process
+        dd: [1, 2, 3]  # Example data to process
     steps:
       - run: |
-        d=${{ matrix.d }}
-        echo  $d >> data.txt
+          d = ${{ matrix.dd }}
+          echo $d >> data.txt
   
   # Job 2 to process data
   process-results:
