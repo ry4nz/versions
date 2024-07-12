@@ -18,12 +18,26 @@ jobs:
           repo=${{ matrix.component.r }}
           version1=$(curl -L https://api.github.com/repos/$repo/releases/latest | jq '.name' | tr -d '"')
           version2=$(grep "$name" base-tag.mk | cut -d'=' -f2)
-          echo "| $name | https://www.github.com/$repo | $version2 | $version1 |" >> data.md
+          echo "| $name | https://www.github.com/$repo | $version2 | $version1 |" >> data-$name.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: processed-data-$name
+          path: data-$name.md
   upload:
     name: Upload
     needs: get-matrix
     runs-on: ubuntu-latest
-    steps: 
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: processed-data-*
+          merge-multiple: true
       - run: |
-          cat data.md
-
+          cat ./*.md > all.md
+      - uses: actions/upload-artifact@v4
+        with:
+          name: all
+          path: all.md
+      - uses: geekyeggo/delete-artifact@v5
+        with:
+          name: processed-data-*
