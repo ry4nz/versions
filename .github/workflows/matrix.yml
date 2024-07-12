@@ -23,5 +23,4 @@ jobs:
           echo $repo
           echo $version1
           echo $version2
-          echo "| $name | https://www.github.com/$repo | $version2 | $version1 |"
 
