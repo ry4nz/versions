@@ -1,0 +1,29 @@
+name: get matrix
+on: workflow_dispatch
+
+jobs:
+  build:
+    name: GetVersions
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        name:  # List of version variable names (e.g., ETCD_COMMIT, NODE_FEATURE_DISCOVERY_COMMIT)
+          - ETCD_COMMIT
+          - NODE_FEATURE_DISCOVERY_COMMIT
+        repo:  # List of corresponding GitHub repositories
+          - etcd-io/etcd
+          - kubernetes-sigs/node-feature-discovery
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          name=${{ matrix.name }}
+          repo=${{ matrix.repo }}
+          version1=$(curl -L https://api.github.com/repos/$repo/releases/latest | jq '.name' | tr -d '"')
+          version2=$(grep "$name" base-tag.mk | cut -d'=' -f2)
+          echo "| $name | https://www.github.com/$repo | $version2 | $version1 |" >> versions.md
+      - run: |
+          echo "| --- | --- | --- | --- |" >> versions.md 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: versions
+          path: versions.md
