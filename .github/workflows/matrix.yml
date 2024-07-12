@@ -6,6 +6,7 @@ jobs:
     name: GetMetrix
     runs-on: ubuntu-latest
     strategy:
+      max-parallel: 1
       matrix:
         component:
           - { n: ETCD_COMMIT,   r: etcd-io/etcd }
@@ -17,7 +18,9 @@ jobs:
           repo=${{ matrix.component.r }}
           version1=$(curl -L https://api.github.com/repos/$repo/releases/latest | jq '.name' | tr -d '"')
           version2=$(grep "$name" base-tag.mk | cut -d'=' -f2)
-          echo "Name: $name"
-          echo "Repository: $repo"
-          echo $version1
-          echo $version2
+          echo "| $name | https://www.github.com/$repo | $version2 | $version1 |" >> versions.md
+  upload:
+     uses: actions/upload-artifact@v4
+         with:
+           name: versions
+           path: versions.md
