@@ -26,9 +26,10 @@ jobs:
     steps:
       - uses: actions/download-artifact@v3
         with:
-          name: processed-data  # Download all artifacts
+          pattern: processed-data-*
       - run: |
           for file in *.txt; do
             echo "Processing data from: $file"
+            cat $file
             # Process data from each downloaded file
           done
