@@ -16,7 +16,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: processed-data-${{ matrix.data }}
-          path: output.txt
+          path: output-${{ matrix.data }}.txt
 
   # Job 2 to process data
   process-results:
@@ -28,8 +28,4 @@ jobs:
         with:
           pattern: processed-data-*
       - run: |
-          for file in *.txt; do
-            echo "Processing data from: $file"
-            cat $file
-            # Process data from each downloaded file
-          done
+          ls -R
