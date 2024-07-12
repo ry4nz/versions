@@ -17,11 +17,11 @@ jobs:
           repo=${{ matrix.component.r }}
           version1=$(curl -L https://api.github.com/repos/$repo}/releases/latest | jq '.name' | tr -d '"')
           version2=$(grep "$name" base-tag.mk | cut -d'=' -f2)
-          echo "| $name | https://www.github.com/$repo | $version2 | $version1 |" >> data-$name.md
+          echo "| $name | https://www.github.com/$repo | $version2 | $version1 |" >> data-$name.txt
       - uses: actions/upload-artifact@v4
         with:
           name: processed-data-${{ matrix.component.n }}
-          path: data-${{ matrix.component.n }}.md
+          path: data-${{ matrix.component.n }}.txt
   upload:
     name: Upload
     needs: get-matrix
@@ -34,7 +34,7 @@ jobs:
       - run: |
           echo \| name \| repo \| current version \| upstream version  \| > all.md
           echo \| --- \| --- \| --- \| --- \| >> all.md
-          cat ./*.md >> all.md
+          cat ./*.txt >> all.md
       - uses: actions/upload-artifact@v4
         with:
           name: all
