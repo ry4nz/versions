@@ -1,4 +1,6 @@
-name: get component versions
+# This workflow will get all the component versions and compare them with the latest release on GitHub.
+# It will then create a markdown file with the comparison and upload it as an artifact.
+name: check component versions
 on: workflow_dispatch
 
 jobs:
@@ -8,8 +10,25 @@ jobs:
     strategy:
       matrix:
         component:
-          - { n: ETCD_COMMIT,   r: etcd-io/etcd }
+          - { n: ETCD_COMMIT,                   r: etcd-io/etcd }
           - { n: NODE_FEATURE_DISCOVERY_COMMIT, r: kubernetes-sigs/node-feature-discovery }
+          - { n: NVIDIA_PLUGIN_COMMIT,          r: GoogleCloudPlatform/container-engine-accelerators }
+          - { n: NVIDIA_GPU_DISCOVERY_COMMIT,   r: NVIDIA/gpu-feature-discovery }
+          - { n: CALICO_VER,                    r: projectcalico/calico }
+          - { n: COREDNS_VER,                   r: coredns/coredns }
+          - { n: KUBE_INGRESS_CONTROLLER_VER,   r: kubernetes/ingress-nginx }
+          - { n: GATEKEEPER_VERSION,            r: open-policy-agent/gatekeeper }
+          - { n: METALLB_VERSION,               r: metallb/metallb }
+          - { n: NODE_LOCAL_DNS_VERSION,        r: kubernetes/dns }
+          - { n: KUBE_STATE_METRICS_VERSION,    r: kubernetes/kube-state-metrics }
+          - { n: NODE_EXPORTER_VERSION,         r: prometheus/node_exporter }
+          - { n: MULTUS_CNI_VERSION,            r: k8snetworkplumbingwg/multus-cni }
+          - { n: PROMETHEUS_VERSION,            r: prometheus/prometheus }
+          - { n: BLACKBOX_VERSION,              r: prometheus/blackbox_exporter }
+          - { n: ALERT_MANAGER_VERSION,         r: prometheus/alertmanager }
+          - { n: CADVISOR_VERSION,              r: google/cadvisor }
+          - { n: KUBE_GMSA_WEBHOOK_VER,         r: kubernetes-sigs/windows-gmsa }
+          - { n: CLOUD_CONTROLLER_VER,          r: kubernetes/cloud-provider-aws }
     steps:
       - uses: actions/checkout@v3
       - run: |
