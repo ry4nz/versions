@@ -34,8 +34,7 @@ jobs:
       - run: |
           echo \| name \| repo \| current version \| upstream version  \| > all.md
           echo \| --- \| --- \| --- \| --- \| >> all.md
-          cat ./*.md >>
-          all.md
+          cat ./*.md >> all.md
       - uses: actions/upload-artifact@v4
         with:
           name: all
