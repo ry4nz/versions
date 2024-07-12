@@ -21,8 +21,8 @@ jobs:
           echo "| $name | https://www.github.com/$repo | $version2 | $version1 |" >> data-$name.md
       - uses: actions/upload-artifact@v4
         with:
-          name: processed-data-$name
-          path: data-$name.md
+          name: processed-data-${{ matrix.component.n }}
+          path: data-${{ matrix.component.n }}.md
   upload:
     name: Upload
     needs: get-matrix
