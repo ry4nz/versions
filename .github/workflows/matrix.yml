@@ -19,5 +19,9 @@ jobs:
           repo=${{ matrix.include.repo }}
           version1=$(curl -L https://api.github.com/repos/$repo/releases/latest | jq '.name' | tr -d '"')
           version2=$(grep "$name" base-tag.mk | cut -d'=' -f2)
+          echo $name
+          echo $repo
+          echo $version1
+          echo $version2
           echo "| $name | https://www.github.com/$repo | $version2 | $version1 |"
 
