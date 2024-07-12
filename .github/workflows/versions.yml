@@ -8,8 +8,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          echo \| name / repo \| current version \| upstream version  \| > versions.md
-          echo \| ------- \|:------:\| -----:\| >> version.md
+          echo \| name \| repo \| current version \| upstream version  \| > versions.md
+          echo \| --- \| --- \| --- \| --- \| >> version.md
       - run: |
           name=ETCD_COMMIT
           repo=etcd-io/etcd
