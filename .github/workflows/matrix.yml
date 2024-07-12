@@ -5,6 +5,8 @@ jobs:
   get-matrix:
     name: GetMetrix
     runs-on: ubuntu-latest
+    outputs:
+      handle: ${{ steps.gather-version.outputs.handle }}
     strategy:
       max-parallel: 1
       matrix:
@@ -13,7 +15,9 @@ jobs:
           - { n: NODE_FEATURE_DISCOVERY_COMMIT, r: kubernetes-sigs/node-feature-discovery }
     steps:
       - uses: actions/checkout@v3
-      - run: |
+      - name: gather version
+        id: gather-version
+        run: |
           name=${{ matrix.component.n }}
           repo=${{ matrix.component.r }}
           version1=$(curl -L https://api.github.com/repos/$repo/releases/latest | jq '.name' | tr -d '"')
@@ -25,5 +29,5 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - run: |
-          versions = "${{ needs.get-matrix.outputs }}"
+          versions = "${{ needs.get-matrix.outputs.handle }}"
           echo $versions
