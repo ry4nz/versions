@@ -11,7 +11,7 @@ jobs:
         dd: [1, 2, 3]  # Example data to process
     steps:
       - run: |
-          d = ${{ matrix.dd }}
+          d=${{ matrix.dd }}
           echo hello >> data.txt
   
   # Job 2 to process data
