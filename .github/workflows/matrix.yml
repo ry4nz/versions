@@ -13,9 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: |
-          version1=$(curl -L https://api.github.com/repos/${{ matrix.component.r }}/releases/latest | jq '.name' | tr -d '"')
-          version2=$(grep "${{ matrix.component.n }}" base-tag.mk | cut -d'=' -f2)
-          echo "| $name | https://www.github.com/$repo | $version2 | $version1 |" >> data-${{ matrix.component.n }}.md
+          name=${{ matrix.component.n }}
+          repo=${{ matrix.component.r }}
+          version1=$(curl -L https://api.github.com/repos/$repo}/releases/latest | jq '.name' | tr -d '"')
+          version2=$(grep "$name" base-tag.mk | cut -d'=' -f2)
+          echo "| $name | https://www.github.com/$repo | $version2 | $version1 |" >> data-$name.md
       - uses: actions/upload-artifact@v4
         with:
           name: processed-data-${{ matrix.component.n }}
@@ -32,7 +34,8 @@ jobs:
       - run: |
           echo \| name \| repo \| current version \| upstream version  \| > all.md
           echo \| --- \| --- \| --- \| --- \| >> all.md
-          cat ./*.md > all.md
+          cat ./*.md >>
+          all.md
       - uses: actions/upload-artifact@v4
         with:
           name: all
