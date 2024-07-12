@@ -15,13 +15,13 @@ jobs:
           repo=etcd-io/etcd
           version1=$(curl -L  https://api.github.com/repos/$repo/releases/latest | jq '.name' | tr -d '"')
           version2=$(grep $name base-tag.mk | cut -d'=' -f2)
-          echo \|$name https://www.github.com/$repo \| $version2 \| $version1 \| >> versions.md
+          echo \| $name \| https://www.github.com/$repo \| $version2 \| $version1 \| >> versions.md
       - run: |
           name=NODE_FEATURE_DISCOVERY_COMMIT
           repo=kubernetes-sigs/node-feature-discovery
           version1=$(curl -L  https://api.github.com/repos/$repo/releases/latest | jq '.name' | tr -d '"')
           version2=$(grep $name base-tag.mk | cut -d'=' -f2)
-          echo \|$name https://www.github.com/$repo \| $version2 \| $version1 \| >> versions.md
+          echo \| $name \| https://www.github.com/$repo \| $version2 \| $version1 \| >> versions.md
                  
       - uses: actions/upload-artifact@v4
         with:
