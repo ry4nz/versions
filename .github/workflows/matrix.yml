@@ -2,8 +2,8 @@ name: get matrix
 on: workflow_dispatch
 
 jobs:
-  build:
-    name: GetVersions
+  get-matrix:
+    name: GetMetrix
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,10 +17,10 @@ jobs:
       - run: |
           name=${{ matrix.include.name }}
           repo=${{ matrix.include.repo }}
-          version1=$(curl -L https://api.github.com/repos/$repo/releases/latest | jq '.name' | tr -d '"')
-          version2=$(grep "$name" base-tag.mk | cut -d'=' -f2)
+          #version1=$(curl -L https://api.github.com/repos/$repo/releases/latest | jq '.name' | tr -d '"')
+          #version2=$(grep "$name" base-tag.mk | cut -d'=' -f2)
           echo $name
           echo $repo
-          echo $version1
-          echo $version2
+          #echo $version1
+          #echo $version2
 
