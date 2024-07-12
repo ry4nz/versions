@@ -35,7 +35,7 @@ jobs:
           name=${{ matrix.component.n }}
           repo=${{ matrix.component.r }}
           version1=$(curl -L https://api.github.com/repos/$repo/releases/latest | jq '.name' | tr -d '"')
-          version2=$(grep "$name" base-tag.mk | cut -d'=' -f2)
+          version2=$(grep "$name"= base-tag.mk | cut -d'=' -f2)
           emoji=$(if [[ "$version1" == "$version2" ]]; then echo ":white_check_mark:"; else echo ":x:"; fi)
           echo "| $name | https://www.github.com/$repo | $version2 | $version1 | $emoji |" >> data-$name.txt
       - uses: actions/upload-artifact@v4
