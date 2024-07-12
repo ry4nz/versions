@@ -1,9 +1,9 @@
-name: get matrix
+name: get component versions
 on: workflow_dispatch
 
 jobs:
-  get-matrix:
-    name: GetMetrix
+  map:
+    name: Map
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,23 +17,24 @@ jobs:
           repo=${{ matrix.component.r }}
           version1=$(curl -L https://api.github.com/repos/$repo/releases/latest | jq '.name' | tr -d '"')
           version2=$(grep "$name" base-tag.mk | cut -d'=' -f2)
-          echo "| $name | https://www.github.com/$repo | $version2 | $version1 |" >> data-$name.txt
+          emoji=$(if [[ "$version1" == "$version2" ]]; then echo ":white_check_mark:"; else echo ":x:"; fi)
+          echo "| $name | https://www.github.com/$repo | $version2 | $version1 | $emoji |" >> data-$name.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: processed-data-${{ matrix.component.n }}
+          name: data-${{ matrix.component.n }}
           path: data-${{ matrix.component.n }}.txt
-  upload:
-    name: Upload
-    needs: get-matrix
+  reduce:
+    name: Reduce
+    needs: map
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
         with:
-          pattern: processed-data-*
+          pattern: data-*
           merge-multiple: true
       - run: |
-          echo \| name \| repo \| current version \| upstream version  \| > all.md
-          echo \| --- \| --- \| --- \| --- \| >> all.md
+          echo \| name \| repo \| current version \| upstream version  \| \| > all.md
+          echo \| --- \| --- \| --- \| --- \| --- \|>> all.md
           cat ./*.txt >> all.md
       - uses: actions/upload-artifact@v4
         with:
@@ -41,4 +42,4 @@ jobs:
           path: all.md
       - uses: geekyeggo/delete-artifact@v5
         with:
-          name: processed-data-*
+          name: data-*
