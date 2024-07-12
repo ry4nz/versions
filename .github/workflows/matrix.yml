@@ -7,16 +7,18 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        components: [ 1,2,3]
+        component:
+          - { cc: gcc,   cxx: g++ }
+          - { cc: clang, cxx: clang++ }
     steps:
       - uses: actions/checkout@v3
       - run: |
-          name=${{ matrix.components }}
-          #repo=${{ matrix.components[1] }}
+          name=${{ matrix.component.cc }}
+          repo=${{ matrix.component.cxx }}
           #version1=$(curl -L https://api.github.com/repos/$repo/releases/latest | jq '.name' | tr -d '"')
           #version2=$(grep "$name" base-tag.mk | cut -d'=' -f2)
           echo "Name: $name"
-          #echo "Repository: $repo"
+          echo "Repository: $repo"
           #echo $version1
           #echo $version2
 
