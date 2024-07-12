@@ -21,6 +21,6 @@ jobs:
           echo "| $name | https://www.github.com/$repo | $version2 | $version1 |" >> versions.md
   upload:
      uses: actions/upload-artifact@v4
-         with:
-           name: versions
-           path: versions.md
+       with:
+         name: versions
+         path: versions.md
