@@ -7,16 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        include:
-          - name: ETCD_COMMIT
-            repo: etcd-io/etcd
-          - name: NODE_FEATURE_DISCOVERY_COMMIT
-            repo: kubernetes-sigs/node-feature-discovery
+        include: [[ETCD_COMMIT, etcd-io/etcd], [NODE_FEATURE_DISCOVERY_COMMIT, kubernetes-sigs/node-feature-discovery]]
     steps:
       - uses: actions/checkout@v3
       - run: |
-          name=${{ matrix.include.name }}
-          repo=${{ matrix.include.repo }}
+          name=${{ matrix.include[0] }}
+          repo=${{ matrix.include[1] }}
           #version1=$(curl -L https://api.github.com/repos/$repo/releases/latest | jq '.name' | tr -d '"')
           #version2=$(grep "$name" base-tag.mk | cut -d'=' -f2)
           echo "Name: $name"
